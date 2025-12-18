@@ -25,3 +25,11 @@
   apt:
     name: terraform
     state: present
+
+- name: Check Terraform version
+  command: terraform version
+  register: terraform_version
+
+- debug:
+    msg: "{{ terraform_version.stdout }}"
+
