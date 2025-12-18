@@ -1,0 +1,58 @@
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install base packages
+  apt:
+    name:
+      - htop
+      - git
+      - screen
+      - net-tools
+      - wget
+      - curl
+      - vim
+      - unzip
+      - dos2unix
+      - perl
+      - mlocate
+      - build-essential
+      - libreadline-dev
+      - libssl-dev
+      - libudev-dev
+      - software-properties-common
+    state: present
+
+- name: Set timezone
+  timezone:
+    name: Asia/Kolkata
+
+- #name: Ensure 2GB swap exists
+  #community.general.swapfile:
+  #  path: /swapfile
+  #  size: 2G
+  #  state: present
+
+- name: Tune swap behavior
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  loop:
+    - { key: vm.swappiness, value: 10 }
+    - { key: vm.vfs_cache_pressure, value: 50 }
+
+- name: Increase shell history size
+  blockinfile:
+    path: /etc/profile
+    block: |
+      HISTSIZE=100000
+      HISTFILESIZE=200000
+      HISTTIMEFORMAT="[%F %T] "
+
+- name: Local machine protection notice
+  debug:
+    msg:
+      - "LOCAL MODE: Firewall not disabled"
+      - "LOCAL MODE: AppArmor not disabled"
+      - "LOCAL MODE: Hostname unchanged"

@@ -1,0 +1,10 @@
+- name: Ansible test run
+  hosts: local
+  become: yes
+
+  tasks:
+    - name: Install htop
+      apt:
+        name: htop
+        state: present
+        update_cache: yes
