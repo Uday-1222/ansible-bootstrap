@@ -50,32 +50,4 @@
       HISTFILESIZE=200000
       HISTTIMEFORMAT="[%F %T] "
 
-- name: Local machine protection notice
-  debug:
-    msg:
-      - "LOCAL MODE: Firewall not disabled"
-      - "LOCAL MODE: AppArmor not disabled"
-      - "LOCAL MODE: Hostname unchanged"
 
-- name: Disable UFW firewall (EC2 only)
-  service:
-    name: ufw
-    state: stopped
-    enabled: no
-
-- name: Disable AppArmor (EC2 only)
-  service:
-    name: apparmor
-    state: stopped
-    enabled: no
-
-- name: Set hostname
-  hostname:
-    name: "{{ inventory_hostname }}"
-
-- name: Preserve hostname across reboots
-  lineinfile:
-    path: /etc/cloud/cloud.cfg
-    regexp: '^preserve_hostname:'
-    line: 'preserve_hostname: true'
-    create: yes
