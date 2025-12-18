@@ -1,0 +1,6 @@
+- name: Local machine protection notice
+  debug:
+    msg:
+      - "LOCAL MODE: Firewall not disabled"
+      - "LOCAL MODE: AppArmor not disabled"
+      - "LOCAL MODE: Hostname unchanged"
